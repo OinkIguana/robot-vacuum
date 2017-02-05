@@ -1,4 +1,4 @@
-[demo]: http://cameldridge.com/experiment/roomba/index.html
+[demo]: http://cameldridge.com/experiment/robot-vacuum/index.html
 [Game Engine]: https://github.com/OinkIguana/game-engine
 
 # Robot Vacuum
