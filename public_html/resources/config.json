@@ -1,0 +1,10 @@
+{
+  "texture-pages": {
+    "character": "./texture-pages/character.json",
+    "environment": "./texture-pages/environment.json"
+  },
+  "tile-maps": {},
+  "fonts": {},
+  "sounds": {},
+  "music": {}
+}
