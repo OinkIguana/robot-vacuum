@@ -1,4 +1,4 @@
-[roomba]: http://cameldridge.com/experiment/roomba.html
+[roomba]: http://cameldridge.com/experiment/roomba/index.html
 [Game Engine]: https://github.com/OinkIguana/game-engine
 
 # roomba
