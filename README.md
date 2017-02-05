@@ -1,24 +1,24 @@
-[roomba]: http://cameldridge.com/experiment/roomba/index.html
+[demo]: http://cameldridge.com/experiment/roomba/index.html
 [Game Engine]: https://github.com/OinkIguana/game-engine
 
-# roomba
+# Robot Vacuum
 
-A simple Roomba that wanders the big wide world.
+A simple Robot Vacuum that wanders the big wide world.
 
-Watch the Roomba in action [here][roomba].
+Watch the Robot Vacuum in action [here][demo].
 
 ## Running
 
-To run the Roomba yourself, you will need to have link up my [Game Engine] to NPM,
-and then link that with the Roomba package:
+To run the Robot Vacuum yourself, you will need to have link up my [Game Engine] to NPM,
+and then link that with the Robot Vacuum package:
 
 ```
 git clone git@github.com:oinkiguana/game-engine.git
 cd game-engine
 npm link
 cd ../
-git clone git@github.com:oinkiguana/roomba.git
-cd roomba
+git clone git@github.com:oinkiguana/robot-vacuum.git
+cd robot-vacuum
 npm link game-engine
 npm install --only=dev
 webpack

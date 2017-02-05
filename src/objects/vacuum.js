@@ -12,7 +12,7 @@ const Right90 = Symbol('Right90');
 const Left90 = Symbol('Left90');
 
 @sprite('roomba')
-export class Roomba extends Drawable(Collider(new Circle(0, 0, 64))(GameObject)) {
+export class Vacuum extends Drawable(Collider(new Circle(0, 0, 64))(GameObject)) {
   direction = Math.random() * 2 * Math.PI;
   _state = Spiral;
   timeSinceStateChange = 0;

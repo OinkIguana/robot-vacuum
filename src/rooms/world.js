@@ -1,12 +1,12 @@
 'use strict';
 import { Room, Position, override, texturepage } from 'game-engine';
-import { Roomba, Wall } from '../objects';
+import { Vacuum, Wall } from '../objects';
 
 @texturepage('environment', 'character')
-export class Ba extends Room {
+export class World extends Room {
   @override
   start() {
-    this.spawn(Roomba);
+    this.spawn(Vacuum);
     for(let i = 0; i < 3; ++i) {
       this.spawn(Wall, new Position(Math.floor(Math.random() * this.game.size.w), Math.floor(Math.random() * this.game.size.h)));
     }

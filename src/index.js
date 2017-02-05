@@ -5,12 +5,12 @@ import cfg from '../public_html/resources/config.json';
 
 const engine = new (@config('resources', cfg) class extends Engine {
   constructor() {
-    super('#roomba', new Dimension(window.innerWidth, window.innerHeight));
+    super('#robot-vacuum', new Dimension(window.innerWidth, window.innerHeight));
   }
 
   @override
   start() {
-    this.util.room.goto(Room.Ba);
+    this.util.room.goto(Room.World);
   }
 });
 

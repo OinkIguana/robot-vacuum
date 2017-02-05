@@ -1,2 +1,2 @@
 'use strict';
-export * from './ba';
+export * from './world';
