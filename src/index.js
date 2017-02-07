@@ -1,5 +1,7 @@
 'use strict';
 import { Engine, Dimension, config, override } from 'game-engine';
+import * as Random from 'random-js';
+
 import * as Room from './rooms';
 import cfg from '../public_html/resources/config.json';
 

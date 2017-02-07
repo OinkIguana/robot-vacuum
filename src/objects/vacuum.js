@@ -1,6 +1,8 @@
 'use strict';
 import { Drawable, Collider, GameObject, Circle, Position, sprite, override } from 'game-engine';
-import { Wall } from './';
+import * as Random from 'random-js';
+import random from '../random';
+import { Terrain } from './world/terrain';
 // states
 const Spiral = Symbol('Spiral');
 const FollowLeft = Symbol('FollowLeft');
@@ -13,7 +15,7 @@ const Left90 = Symbol('Left90');
 
 @sprite('roomba')
 export class Vacuum extends Drawable(Collider(new Circle(0, 0, 64))(GameObject)) {
-  direction = Math.random() * 2 * Math.PI;
+  direction = Random.real(0, 1, true)(random) * 2 * Math.PI; // todo random range
   _state = Spiral;
   timeSinceStateChange = 0;
   // spiral info
@@ -28,7 +30,7 @@ export class Vacuum extends Drawable(Collider(new Circle(0, 0, 64))(GameObject))
   @override
   step() {
     ++this.timeSinceStateChange;
-    const collision = super.game.collides(Circle.shift(this.bbox, this.nextPosition), Wall);
+    const collision = super.game.collides(Circle.shift(this.bbox, this.nextPosition), Terrain);
     if(!collision) {
       this.position = this.nextPosition;
     }
@@ -40,6 +42,7 @@ export class Vacuum extends Drawable(Collider(new Circle(0, 0, 64))(GameObject))
       this.direction += 2 * Math.PI;
     }
     this[this.state]();
+    super.game.view(this.position, false);
   }
 
   @override
@@ -57,14 +60,14 @@ export class Vacuum extends Drawable(Collider(new Circle(0, 0, 64))(GameObject))
   }
 
   [Spiral]() {
-    if(super.game.collides(Circle.shift(this.bbox, this.nextPosition), Wall)) {
+    if(super.game.collides(Circle.shift(this.bbox, this.nextPosition), Terrain)) {
       this.state = BounceRight;
     }
   }
   [FollowLeft]() {
     if(this.timeSinceStateChange > 300) {
       this.state = Right90;
-    } else if(super.game.collides(Circle.shift(this.bbox, this.nextPosition), Wall)) {
+    } else if(super.game.collides(Circle.shift(this.bbox, this.nextPosition), Terrain)) {
       this.state = BounceLeft;
     }
   }
@@ -76,7 +79,7 @@ export class Vacuum extends Drawable(Collider(new Circle(0, 0, 64))(GameObject))
   [FollowRight]() {
     if(this.timeSinceStateChange > 300) {
       this.state = Left90;
-    } else if(super.game.collides(Circle.shift(this.bbox, this.nextPosition), Wall)) {
+    } else if(super.game.collides(Circle.shift(this.bbox, this.nextPosition), Terrain)) {
       this.state = BounceRight;
     }
   }
@@ -86,7 +89,7 @@ export class Vacuum extends Drawable(Collider(new Circle(0, 0, 64))(GameObject))
     }
   }
   [Straight]() {
-    if(super.game.collides(Circle.shift(this.bbox, this.nextPosition), Wall)) {
+    if(super.game.collides(Circle.shift(this.bbox, this.nextPosition), Terrain)) {
       this.state = FollowRight;
     } else if(this.timeSinceStateChange > 300) {
       this.state = Spiral;
@@ -142,6 +145,5 @@ export class Vacuum extends Drawable(Collider(new Circle(0, 0, 64))(GameObject))
   @override
   draw(draw) {
     draw.rotation(-this.direction - Math.PI * 3 / 2, new Position(64, 64)).sprite(this.sprite).rotation(0);
-    draw.circle(Circle.shift(this.bbox, this.position), -1);
   }
 }
