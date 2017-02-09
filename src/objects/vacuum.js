@@ -13,9 +13,12 @@ const Straight = Symbol('Straight');
 const Right90 = Symbol('Right90');
 const Left90 = Symbol('Left90');
 
+// TODO:  make this work nicer when it finds a very large open area and covers
+//        the whole space already
+
 @sprite('roomba')
 export class Vacuum extends Drawable(Collider(new Circle(0, 0, 64))(GameObject)) {
-  direction = Random.real(0, 1, true)(random) * 2 * Math.PI; // todo random range
+  direction = Random.real(0, 1, true)(random) * 2 * Math.PI;
   _state = Spiral;
   timeSinceStateChange = 0;
   // spiral info

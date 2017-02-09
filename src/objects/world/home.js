@@ -7,6 +7,6 @@ export class Home extends Piece {
   @override
   generate() {
     super.generate();
-    // generate a house in the middle, with regular terrain around the house
+    // TODO: generate a house in the middle, with regular terrain around the house
   }
 }

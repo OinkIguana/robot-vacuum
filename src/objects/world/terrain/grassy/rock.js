@@ -1,9 +1,11 @@
 'use strict';
-import { Drawable, Collider, GameObject, Circle, override } from 'game-engine';
+import { Drawable, Collider, GameObject, Circle, override, sprite } from 'game-engine';
 import { Terrain } from '../terrain';
 
-export class Rock extends Drawable(Collider(new Circle(0, 0, 128))(Terrain(GameObject))) {
+@sprite('big-rock')
+export class Rock extends Drawable(Collider(new Circle(0, 0, 64))(Terrain(GameObject))) {
   pos = null;
+  depth = 1;
 
   @override
   init(where) {
@@ -17,6 +19,6 @@ export class Rock extends Drawable(Collider(new Circle(0, 0, 128))(Terrain(GameO
 
   @override
   draw(draw) {
-    draw.color(0x66000077).circle(Circle.shift(this.bbox, this.pos), 1);
+    draw.color(0x66000077).self(this.depth);
   }
 }

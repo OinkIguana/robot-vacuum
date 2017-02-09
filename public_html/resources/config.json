@@ -1,7 +1,7 @@
 {
   "texture-pages": {
     "character": "./texture-pages/character.json",
-    "environment": "./texture-pages/environment.json"
+    "grassy": "./texture-pages/grassy.json"
   },
   "tile-maps": {},
   "fonts": {},
