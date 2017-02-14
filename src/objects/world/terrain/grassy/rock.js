@@ -1,24 +1,31 @@
 'use strict';
-import { Drawable, Collider, GameObject, Circle, override, sprite } from 'game-engine';
+import { Drawable, Collider, GameObject, Rectangle, Position, override, sprite } from 'game-engine';
 import { Terrain } from '../terrain';
 
-@sprite('big-rock')
-export class Rock extends Drawable(Collider(new Circle(0, 0, 64))(Terrain(GameObject))) {
+class Rock extends Drawable(Collider(new Rectangle(-64, 0, 128, 64))(Terrain(GameObject))) {
   pos = null;
   depth = 1;
 
   @override
   init(where) {
-    this.pos = where;
+    this.sprite.position = where;
   }
 
   @override
   get position() {
-    return this.pos;
+    return new Position(this.sprite.position.x + 64, this.sprite.position.y + 64);
   }
 
   @override
   draw(draw) {
-    draw.color(0x66000077).self(this.depth);
+    draw.color(0x66000077).rect(Rectangle.shift(this.bbox, this.position), this.depth + 1).sprite(this.sprite, this.depth);
   }
+}
+
+@sprite('big-rock')
+export class BigRock extends Rock {}
+
+@sprite('small-rocks')
+export class SmallRocks extends Rock{
+  
 }

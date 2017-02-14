@@ -17,7 +17,7 @@ const Left90 = Symbol('Left90');
 //        the whole space already
 
 @sprite('roomba')
-export class Vacuum extends Drawable(Collider(new Circle(0, 0, 64))(GameObject)) {
+export class Vacuum extends Drawable(Collider(new Circle(0, 0, 60))(GameObject)) {
   direction = Random.real(0, 1, true)(random) * 2 * Math.PI;
   _state = Spiral;
   timeSinceStateChange = 0;
@@ -26,7 +26,7 @@ export class Vacuum extends Drawable(Collider(new Circle(0, 0, 64))(GameObject))
 
   @override
   init() {
-    this.position = new Position(super.game.size.w / 2, super.game.size.h / 2);
+    this.position = new Position(0, 0);
     this.state = Spiral;
   }
 
@@ -36,6 +36,9 @@ export class Vacuum extends Drawable(Collider(new Circle(0, 0, 64))(GameObject))
     const collision = super.game.collides(Circle.shift(this.bbox, this.nextPosition), Terrain);
     if(!collision) {
       this.position = this.nextPosition;
+    } else {
+      console.log(collision.constructor, collision.position);
+      debugger;
     }
     this.direction += this.rotation;
     this.totalRotation += this.rotation;
@@ -94,7 +97,7 @@ export class Vacuum extends Drawable(Collider(new Circle(0, 0, 64))(GameObject))
   [Straight]() {
     if(super.game.collides(Circle.shift(this.bbox, this.nextPosition), Terrain)) {
       this.state = FollowRight;
-    } else if(this.timeSinceStateChange > 300) {
+    } else if(this.timeSinceStateChange > 800) {
       this.state = Spiral;
     }
   }
@@ -131,13 +134,13 @@ export class Vacuum extends Drawable(Collider(new Circle(0, 0, 64))(GameObject))
       case Straight:
         return 0;
       case FollowLeft:
-        return 0.001;
+        return 0.005;
       case BounceLeft:
-        return -Math.PI * 2 / 8 / 30;
+        return -0.01; // -Math.PI * 2 / 8 / 60;
       case FollowRight:
-        return -0.001;
+        return -0.005;
       case BounceRight:
-        return Math.PI * 2 / 8 / 90;
+        return 0.01; // Math.PI * 2 / 8 / 60;
       case Right90:
         return -Math.PI * 2 / 4 / 30;
       case Left90:
