@@ -23,6 +23,7 @@ export class Vacuum extends Drawable(Collider(new Circle(0, 0, 60))(GameObject))
   timeSinceStateChange = 0;
   // spiral info
   totalRotation = 0;
+  bounces = 0;
 
   @override
   init() {
@@ -36,9 +37,6 @@ export class Vacuum extends Drawable(Collider(new Circle(0, 0, 60))(GameObject))
     const collision = super.game.collides(Circle.shift(this.bbox, this.nextPosition), Terrain);
     if(!collision) {
       this.position = this.nextPosition;
-    } else {
-      console.log(collision.constructor, collision.position);
-      debugger;
     }
     this.direction += this.rotation;
     this.totalRotation += this.rotation;
@@ -74,7 +72,11 @@ export class Vacuum extends Drawable(Collider(new Circle(0, 0, 60))(GameObject))
     if(this.timeSinceStateChange > 300) {
       this.state = Right90;
     } else if(super.game.collides(Circle.shift(this.bbox, this.nextPosition), Terrain)) {
-      this.state = BounceLeft;
+      if(++this.bounces > 10) {
+        this.state = Right90;
+      } else {
+        this.state = BounceLeft;
+      }
     }
   }
   [BounceLeft]() {
@@ -86,7 +88,11 @@ export class Vacuum extends Drawable(Collider(new Circle(0, 0, 60))(GameObject))
     if(this.timeSinceStateChange > 300) {
       this.state = Left90;
     } else if(super.game.collides(Circle.shift(this.bbox, this.nextPosition), Terrain)) {
-      this.state = BounceRight;
+      if(++this.bounces > 10) {
+        this.state = Left90;
+      } else {
+        this.state = BounceRight;
+      }
     }
   }
   [BounceRight]() {
@@ -97,17 +103,20 @@ export class Vacuum extends Drawable(Collider(new Circle(0, 0, 60))(GameObject))
   [Straight]() {
     if(super.game.collides(Circle.shift(this.bbox, this.nextPosition), Terrain)) {
       this.state = FollowRight;
-    } else if(this.timeSinceStateChange > 800) {
+    } else if(this.timeSinceStateChange > 650) {
       this.state = Spiral;
     }
   }
+  // actually goes more than 90 a bit
   [Right90]() {
-    if(this.timeSinceStateChange > 30) {
+    if(this.timeSinceStateChange > 34) {
+      this.bounces = 0;
       this.state = Straight;
     }
   }
   [Left90]() {
-    if(this.timeSinceStateChange > 30) {
+    if(this.timeSinceStateChange > 34) {
+      this.bounces = 0;
       this.state = Straight;
     }
   }
@@ -150,6 +159,6 @@ export class Vacuum extends Drawable(Collider(new Circle(0, 0, 60))(GameObject))
 
   @override
   draw(draw) {
-    draw.rotation(-this.direction - Math.PI * 3 / 2, new Position(64, 64)).sprite(this.sprite).rotation(0);
+    draw.rotation(-this.direction - Math.PI * 3 / 2, new Position(64, 64)).sprite(this.sprite, this.position.y).rotation(0);
   }
 }

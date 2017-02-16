@@ -5,7 +5,6 @@ import { Terrain } from '../terrain';
 
 class Wall extends Drawable(Collider(new Rectangle(0, 0, 0, 0))(Terrain(GameObject))) {
   pos = new Position(0, 0);
-  depth = 3;
 
   @override
   init(where) {
@@ -17,10 +16,15 @@ class Wall extends Drawable(Collider(new Rectangle(0, 0, 0, 0))(Terrain(GameObje
     return this.sprite.position;
   }
 
+  get depth() {
+    return this.bbox.y + this.bbox.h + this.position.y;
+  }
+
   @override
   draw(draw) {
     draw
-      .rect(Rectangle.shift(this.bbox, this.position), this.depth + 1)
+      // .color(0x66000077)
+      // .rect(Rectangle.shift(this.bbox, this.position), this.depth + 1)
       .sprite(this.sprite, this.depth);
   }
 }
@@ -55,15 +59,16 @@ export class Small extends Wall {
   dir = null;
 
   @override
-  init(dir, ...args) {
+  init(dir, deco, ...args) {
     super.init(...args);
     this.dir = dir;
+    this.deco = deco;
   }
 
   @override
   step() {
     if(this.frame === null) {
-      this.frame = this.dir == 'left' ? 0 : 3;
+      this.frame = this.dir === 'left' ? 0 : 3;
       if(super.game.collides(new Rectangle(this.bbox.x + this.position.x, this.bbox.y + this.position.y - 128, 128, 128), this.constructor)) {
         ++this.frame;
       }
@@ -76,7 +81,8 @@ export class Small extends Wall {
 
   @override
   get bbox() {
-    return new Rectangle(0, 0, 128, 128);
+    if(this.deco) { return new Rectangle(0, 0, 0, 0); }
+    return this.dir === 'left' ? new Rectangle(96, 0, 32, 128) : new Rectangle(0, 0, 32, 128);
   }
 }
 

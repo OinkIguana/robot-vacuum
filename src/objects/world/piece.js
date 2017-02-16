@@ -72,7 +72,7 @@ export class Piece extends Drawable(GameObject) {
     const dest = new Rectangle(x, y, ...super.game.size);
     if(Rectangle.intersects(dest, super.game.view())) {
       // only need to draw relevant areas
-      draw.image(this.groundImage, src, dest, -101).alpha(0.2).image(this.vacuumPath, src, dest, -100).alpha(1);
+      draw.image(this.groundImage, src, dest, -Infinity).alpha(0.2).image(this.vacuumPath, src, dest, -Infinity).alpha(1);
     }
     draw.rect(new Rectangle(this.where, ...Piece.size));
   }

@@ -7,7 +7,6 @@ class Tree extends Drawable(Collider(new Rectangle(-48, -16, 96, 48))(Terrain(Ga
   pos = null;
   trunk = null;
   sprite = null;
-  depth = 2;
   sprites = null;
 
   @override
@@ -24,10 +23,15 @@ class Tree extends Drawable(Collider(new Rectangle(-48, -16, 96, 48))(Terrain(Ga
     return this.pos;
   }
 
+  get depth() {
+    return this.bbox.y + this.bbox.h + this.position.y;
+  }
+
   @override
   draw(draw) {
-    draw.color(0x66000077)
-      .rect(Rectangle.shift(this.bbox, this.pos), this.depth + 1)
+    draw
+      // .color(0x66000077)
+      // .rect(Rectangle.shift(this.bbox, this.pos), this.depth + 1)
       .sprite(this.sprites.head, this.depth)
       .sprite(this.sprites.trunk, this.depth - 1);
   }
